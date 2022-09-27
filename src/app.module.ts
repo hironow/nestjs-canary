@@ -1,7 +1,9 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoggerMiddleware } from './middleware/logger.middleware';
+
+import * as winston from 'winston';
+import * as lw from '@google-cloud/logging-winston';
 
 @Module({
   imports: [],
@@ -9,7 +11,12 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
   providers: [AppService],
 })
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('/');
+  async configure(consumer: MiddlewareConsumer) {
+    // cloud logging winston middleware
+    const logger = winston.createLogger();
+    const mw = await lw.express.makeMiddleware(logger, {
+      redirectToStdout: true,
+    });
+    consumer.apply(mw).forRoutes('/');
   }
 }
