@@ -15,10 +15,15 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  const gql = '/graphql';
+
+  it('Query sayHello', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .post(gql)
+      .send({ query: 'query Query {\n  sayHello\n}' })
       .expect(200)
-      .expect('Hello World!');
+      .expect((res) => {
+        expect(res.body.data.sayHello).toEqual('Hello World!');
+      });
   });
 });
