@@ -8,7 +8,7 @@ describe('AppController', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [WinstonModule.forRoot({})],
+      imports: [WinstonModule.forRoot({ silent: true })],
       controllers: [AppController],
       providers: [AppService],
     }).compile();

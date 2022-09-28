@@ -13,7 +13,7 @@ describe('AppResolver', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [
-        WinstonModule.forRoot({}),
+        WinstonModule.forRoot({ silent: true }),
         GraphQLModule.forRoot<ApolloDriverConfig>({
           driver: ApolloDriver,
           autoSchemaFile: join(process.cwd(), 'generated/graphql/schema.gql'),
