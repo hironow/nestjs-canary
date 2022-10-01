@@ -5,6 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "^18.x"
+  },
   "scripts": {
     "check-env": "node -e 'console.log(process.env)' | grep npm",
     "prebuild": "rimraf dist",

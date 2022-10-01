@@ -7,6 +7,9 @@ my NestJS canary sandbox repository.
 ## Installation
 
 ```bash
+# use target version
+$ nvm use
+
 $ npm install
 ```
 
