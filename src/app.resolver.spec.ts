@@ -32,7 +32,7 @@ describe('AppResolver', () => {
 
   describe('Query sayHello', () => {
     it('should return "Hello World!"', () => {
-      expect(appResolver.sayHello()).toBe('Hello World!');
+      expect(appResolver.sayHello()).toBe('こんにちは、世界！');
     });
   });
 });
