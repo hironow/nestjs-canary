@@ -23,7 +23,7 @@ describe('AppController (e2e)', () => {
       .send({ query: 'query Query {\n  sayHello\n}' })
       .expect(200)
       .expect((res) => {
-        expect(res.body.data.sayHello).toEqual('Hello World!');
+        expect(res.body.data.sayHello).toEqual('Hello World!!');
       });
   });
 });
