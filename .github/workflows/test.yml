@@ -1,0 +1,27 @@
+name: test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+
+      - name: Coverage
+        run: |
+          npm install
+          npm run test:cov
+          echo '## Coverage :rocket:' >> $GITHUB_STEP_SUMMARY
+          # remove first and last line by sed
+          cat coverage/coverage-report.txt | sed '1d' | sed '$d' >> $GITHUB_STEP_SUMMARY
