@@ -25,3 +25,7 @@ jobs:
           echo '## Coverage :rocket:' >> $GITHUB_STEP_SUMMARY
           # remove first and last line by sed
           cat coverage/coverage-report.txt | sed '1d' | sed '$d' >> $GITHUB_STEP_SUMMARY
+
+      - name: E2E
+        run: |
+          npm run test:e2e
