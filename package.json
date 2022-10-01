@@ -78,6 +78,10 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "reporters": [
+      "default",
+      "github-actions"
+    ],
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
