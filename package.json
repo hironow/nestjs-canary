@@ -26,7 +26,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "test:scenario": "bash ./script/scenario.sh",
-    "test:all": "run-p test test:e2e test:scenario"
+    "test:all": "run-p test test:e2e test:scenario",
+    "loadtest": "bash ./script/loadtest.sh"
   },
   "dependencies": {
     "@golevelup/ts-jest": "^0.3.3",
