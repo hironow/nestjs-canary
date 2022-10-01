@@ -1,0 +1,21 @@
+desc: Captured of app.scenario-spec.yml run
+runners:
+  req: '[THIS IS HTTP RUNNER]'
+steps:
+- req:
+    /graphql:
+      post:
+        body:
+          application/json:
+            query: query { sayHello }
+  test: |
+    current.res.status == 200
+    && current.res.headers['Access-Control-Allow-Origin'][0] == "*"
+    && current.res.headers['Connection'][0] == "keep-alive"
+    && current.res.headers['Content-Length'][0] == "37"
+    && current.res.headers['Content-Type'][0] == "application/json; charset=utf-8"
+    && 'Date' in current.res.headers
+    && current.res.headers['Etag'][0] == "W/\"25-d5Dt1yoz/UcEy3nE4FoC/Dn1RfU\""
+    && current.res.headers['Keep-Alive'][0] == "timeout=5"
+    && current.res.headers['X-Powered-By'][0] == "Express"
+    && compare(current.res.body, {"data":{"sayHello":"Hello World!"}})

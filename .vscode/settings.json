@@ -1,4 +1,7 @@
 {
   "jest.autoRun": { "watch": true },
   "jest.jestCommandLine": "npm run test --",
+  "cSpell.words": [
+    "Etag"
+  ],
 }

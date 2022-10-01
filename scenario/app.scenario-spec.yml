@@ -1,0 +1,20 @@
+desc: app
+runners:
+  req: http://localhost:3000
+vars:
+  queryExampleResponse: 'json://response/example.json'
+debug: true
+steps:
+  example:
+    desc: example graphql query
+    req:
+      /graphql:
+        post:
+          body:
+            application/json:
+              query: 'query {
+                sayHello
+                }'
+    test: |
+      current.res.status == 200
+      && current.res.body == vars.queryExampleResponse
