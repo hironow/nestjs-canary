@@ -78,10 +78,22 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "reporters": [
+      "default",
+      "github-actions"
+    ],
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
+    "coverageReporters": [
+      [
+        "text",
+        {
+          "file": "coverage-report.txt"
+        }
+      ]
+    ],
     "testEnvironment": "node"
   }
 }
