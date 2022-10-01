@@ -82,6 +82,14 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
+    "coverageReporters": [
+      [
+        "text",
+        {
+          "file": "coverage-report.txt"
+        }
+      ]
+    ],
     "testEnvironment": "node"
   }
 }
