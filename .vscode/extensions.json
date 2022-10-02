@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "prisma.prisma",
+    "mikestead.dotenv",
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "hashicorp.terraform",
+    "orta.vscode-jest",
+    "zengxingxin.sort-js-object-keys",
+    "alexcvzz.vscode-sqlite",
+    "redhat.vscode-yaml"
+  ]
+}

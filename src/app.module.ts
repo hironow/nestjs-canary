@@ -8,6 +8,8 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { AppResolver } from './app.resolver';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './interceptor/logging.interceptor';
+import { InMemoryService } from './in-memory/in-memory.service';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { LoggingInterceptor } from './interceptor/logging.interceptor';
     },
     AppService,
     AppResolver,
+    InMemoryService,
+    PrismaService,
   ],
 })
 export class AppModule {}

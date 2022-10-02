@@ -6,6 +6,7 @@ import {
   WINSTON_MODULE_PROVIDER,
 } from 'nest-winston';
 import * as lw from '@google-cloud/logging-winston';
+import { PrismaService } from './prisma/prisma.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,9 @@ async function bootstrap() {
     redirectToStdout: true,
   });
   app.use(mw);
+
+  const prisma = app.get(PrismaService);
+  await prisma.enableShutdownHooks(app);
 
   await app.listen(3000);
 }
