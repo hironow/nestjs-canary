@@ -8,6 +8,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { AppResolver } from './app.resolver';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './interceptor/logging.interceptor';
+import { PingModule } from './ping/ping.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { LoggingInterceptor } from './interceptor/logging.interceptor';
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()], // use apollo sandbox
     }),
+    PingModule,
   ],
   controllers: [],
   providers: [
