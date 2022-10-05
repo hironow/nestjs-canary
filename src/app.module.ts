@@ -12,8 +12,11 @@ import * as lw from '@google-cloud/logging-winston';
 
 @Module({
   imports: [
-    WinstonModule.forRoot({
-      defaultMeta: lw.getDefaultMetadataForTracing(),
+    WinstonModule.forRootAsync({
+      useFactory: () => ({
+        defaultMeta: lw.getDefaultMetadataForTracing(),
+      }),
+      inject: [],
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
