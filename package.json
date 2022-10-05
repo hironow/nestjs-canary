@@ -26,12 +26,13 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "test:scenario": "bash ./script/scenario.sh",
-    "test:all": "run-p test test:e2e test:scenario",
+    "test:all": "run-p test test:e2e",
     "loadtest": "bash ./script/loadtest.sh"
   },
   "dependencies": {
     "@golevelup/ts-jest": "^0.3.3",
     "@google-cloud/logging-winston": "^5.1.5",
+    "@google-cloud/trace-agent": "^7.1.2",
     "@nestjs/apollo": "^10.1.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
