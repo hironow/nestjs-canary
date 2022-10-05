@@ -7,7 +7,14 @@ import {
 } from 'nest-winston';
 import * as lw from '@google-cloud/logging-winston';
 
+import * as TraceAgent from '@google-cloud/trace-agent';
+
 async function bootstrap() {
+  TraceAgent.start({
+    samplingRate: 5,
+    ignoreMethods: ['options'],
+  });
+
   const app = await NestFactory.create(AppModule);
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
@@ -17,6 +24,6 @@ async function bootstrap() {
   });
   app.use(mw);
 
-  await app.listen(3000);
+  await app.listen(parseInt(process.env.PORT) || 3000);
 }
 bootstrap();
