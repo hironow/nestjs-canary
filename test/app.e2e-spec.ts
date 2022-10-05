@@ -26,4 +26,14 @@ describe('AppController (e2e)', () => {
         expect(res.body.data.sayHello).toEqual('Hello World!');
       });
   });
+
+  it('Query ping', () => {
+    return request(app.getHttpServer())
+      .post(gql)
+      .send({ query: 'query Query {\n  ping\n}' })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.data.ping).toEqual('pong');
+      });
+  });
 });
