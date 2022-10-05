@@ -3,6 +3,7 @@ runners:
   req: http://localhost:3000
 vars:
   queryExampleResponse: 'json://response/example.json'
+  queryPingResponse: 'json://response/ping.json'
 debug: true
 steps:
   example:
@@ -18,3 +19,16 @@ steps:
     test: |
       current.res.status == 200
       && current.res.body == vars.queryExampleResponse
+  ping:
+    desc: ping graphql query
+    req:
+      /graphql:
+        post:
+          body:
+            application/json:
+              query: 'query {
+                ping
+                }'
+    test: |
+      current.res.status == 200
+      && current.res.body == vars.queryPingResponse
