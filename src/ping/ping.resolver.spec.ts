@@ -19,7 +19,7 @@ describe('PingResolver', () => {
     expect(resolver).toBeDefined();
   });
 
-  describe('Query call', () => {
+  describe('Query ping', () => {
     it('should return "pong"', () => {
       expect(resolver.ping()).toBe('pong');
     });
