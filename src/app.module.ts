@@ -9,6 +9,8 @@ import { AppResolver } from './app.resolver';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './interceptor/logging.interceptor';
 import { PingModule } from './ping/ping.module';
+import { PrismaService } from './prisma/prisma.service';
+import { InMemoryService } from './in-memory/in-memory.service';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { PingModule } from './ping/ping.module';
     },
     AppService,
     AppResolver,
+    PrismaService,
+    InMemoryService,
   ],
 })
 export class AppModule {}
