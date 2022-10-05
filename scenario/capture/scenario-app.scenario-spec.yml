@@ -19,3 +19,20 @@ steps:
     && current.res.headers['Keep-Alive'][0] == "timeout=5"
     && current.res.headers['X-Powered-By'][0] == "Express"
     && compare(current.res.body, {"data":{"sayHello":"Hello World!"}})
+- req:
+    /graphql:
+      post:
+        body:
+          application/json:
+            query: query { ping }
+  test: |
+    current.res.status == 200
+    && current.res.headers['Access-Control-Allow-Origin'][0] == "*"
+    && current.res.headers['Connection'][0] == "keep-alive"
+    && current.res.headers['Content-Length'][0] == "25"
+    && current.res.headers['Content-Type'][0] == "application/json; charset=utf-8"
+    && 'Date' in current.res.headers
+    && current.res.headers['Etag'][0] == "W/\"19-X4lCChRXW4muuLZ5e7niqNyNXgk\""
+    && current.res.headers['Keep-Alive'][0] == "timeout=5"
+    && current.res.headers['X-Powered-By'][0] == "Express"
+    && compare(current.res.body, {"data":{"ping":"pong"}})
