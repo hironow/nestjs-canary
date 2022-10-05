@@ -6,23 +6,28 @@ import {
   WINSTON_MODULE_PROVIDER,
 } from 'nest-winston';
 import * as lw from '@google-cloud/logging-winston';
+import { RequestInterceptor } from './interceptor/request.interceptor';
 
 import * as TraceAgent from '@google-cloud/trace-agent';
 
 async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
   TraceAgent.start({
     samplingRate: 5,
     ignoreMethods: ['options'],
   });
 
-  const app = await NestFactory.create(AppModule);
-  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+  const winstonLogger = app.get(WINSTON_MODULE_NEST_PROVIDER);
+  app.useLogger(winstonLogger);
 
   const logger = app.get(WINSTON_MODULE_PROVIDER);
   const mw = await lw.express.makeMiddleware(logger, {
-    redirectToStdout: true,
+    projectId: process.env.GCP_PROJECT_ID || 'test',
   });
   app.use(mw);
+
+  app.useGlobalInterceptors(new RequestInterceptor());
 
   await app.listen(parseInt(process.env.PORT) || 3000);
 }

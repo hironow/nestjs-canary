@@ -6,14 +6,14 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { AppResolver } from './app.resolver';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { LoggingInterceptor } from './interceptor/logging.interceptor';
 import { PingModule } from './ping/ping.module';
+import { AppController } from './app.controller';
+import * as lw from '@google-cloud/logging-winston';
 
 @Module({
   imports: [
     WinstonModule.forRoot({
-      level: 'info',
+      defaultMeta: lw.getDefaultMetadataForTracing(),
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -25,14 +25,7 @@ import { PingModule } from './ping/ping.module';
     }),
     PingModule,
   ],
-  controllers: [],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor,
-    },
-    AppService,
-    AppResolver,
-  ],
+  controllers: [AppController],
+  providers: [AppService, AppResolver],
 })
 export class AppModule {}

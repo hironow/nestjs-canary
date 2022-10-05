@@ -1,13 +1,13 @@
 import { createMock } from '@golevelup/ts-jest';
 import { CallHandler, ExecutionContext } from '@nestjs/common';
 import { of } from 'rxjs';
-import { LoggingInterceptor } from './logging.interceptor';
+import { RequestInterceptor } from './request.interceptor';
 
-describe('LoggingInterceptor', () => {
-  let interceptor: LoggingInterceptor;
+describe('RequestInterceptor', () => {
+  let interceptor: RequestInterceptor;
 
   beforeEach(() => {
-    interceptor = new LoggingInterceptor();
+    interceptor = new RequestInterceptor();
   });
 
   it('should has no effect with request', async () => {

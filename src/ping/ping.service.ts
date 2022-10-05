@@ -1,16 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Logger } from 'winston';
+import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class PingService {
-  constructor(
-    @Inject(WINSTON_MODULE_PROVIDER)
-    private readonly logger: Logger,
-  ) {}
+  private readonly logger = new Logger(PingService.name);
 
   call(): string {
-    this.logger.warn('PingService call...');
+    this.logger.log('PingService call()...');
     return 'pong';
   }
 }
