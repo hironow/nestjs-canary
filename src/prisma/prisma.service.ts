@@ -1,4 +1,9 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  INestApplication,
+  Inject,
+  Injectable,
+  OnModuleInit,
+} from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { PersistentInterface } from 'src/interface/persistent';
 import {
@@ -38,6 +43,12 @@ export class PrismaService
       this.logger.error(event.message);
     });
     await this.$connect();
+  }
+
+  async enableShutdownHooks(app: INestApplication) {
+    this.$on('beforeExit', async () => {
+      await app.close();
+    });
   }
 
   getPersistent<T, U>(): PersistentInterface<T, U> {
