@@ -9,7 +9,7 @@ export class PingResolver {
     private readonly pingService: PingService,
   ) {}
 
-  @Query(() => String)
+  @Query(() => String, { description: 'ping' })
   ping(): string {
     this.requestLogger.log('PingResolver ping()...');
     return this.pingService.call();
