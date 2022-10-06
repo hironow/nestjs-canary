@@ -1,11 +1,14 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { RequestLoggerService } from '../request-logger/request-logger.service';
 
 @Injectable()
 export class PingService {
-  private readonly logger = new Logger(PingService.name);
+  constructor(private readonly requestLogger: RequestLoggerService) {}
 
   call(): string {
-    this.logger.log('PingService call()...');
+    this.requestLogger.log('PingService call() LOG ...');
+    this.requestLogger.warn('PingService call() WARN ...');
+    this.requestLogger.error('PingService call() ERROR ...');
     return 'pong';
   }
 }

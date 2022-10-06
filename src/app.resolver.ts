@@ -1,19 +1,19 @@
 import { AppService } from './app.service';
 import { Resolver, Query } from '@nestjs/graphql';
-import { Logger } from '@nestjs/common';
+import { RequestLoggerService } from './request-logger/request-logger.service';
 
 @Resolver()
 export class AppResolver {
-  private readonly logger = new Logger(AppResolver.name);
-
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly requestLogger: RequestLoggerService,
+    private readonly appService: AppService,
+  ) {}
 
   @Query(() => String)
   sayHello(): string {
-    this.logger.debug('AppResolver / this is DEBUG log');
-    this.logger.log('AppResolver / this is INFO log');
-    this.logger.warn('AppResolver / this is WARN log');
-    this.logger.error('AppResolver / this is ERROR log');
+    this.requestLogger.log('AppResolver / this is INFO log');
+    this.requestLogger.warn('AppResolver / this is WARN log');
+    this.requestLogger.error('AppResolver / this is ERROR log');
     return this.appService.getHello();
   }
 }

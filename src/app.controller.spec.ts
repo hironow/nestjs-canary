@@ -1,16 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { WinstonModule } from 'nest-winston';
+import { createMock } from '@golevelup/ts-jest';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { RequestLoggerService } from './request-logger/request-logger.service';
 
 describe('AppController', () => {
   let appController: AppController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [WinstonModule.forRoot({ silent: true })],
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        AppService,
+        {
+          provide: RequestLoggerService,
+          useValue: createMock<RequestLoggerService>(),
+        },
+      ],
     }).compile();
 
     appController = app.get<AppController>(AppController);

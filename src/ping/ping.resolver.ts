@@ -1,16 +1,17 @@
-import { Logger } from '@nestjs/common';
 import { Query, Resolver } from '@nestjs/graphql';
+import { RequestLoggerService } from '../request-logger/request-logger.service';
 import { PingService } from './ping.service';
 
 @Resolver()
 export class PingResolver {
-  private readonly logger = new Logger(PingService.name);
-
-  constructor(private readonly pingService: PingService) {}
+  constructor(
+    private readonly requestLogger: RequestLoggerService,
+    private readonly pingService: PingService,
+  ) {}
 
   @Query(() => String)
   ping(): string {
-    this.logger.log('PingResolver ping()...');
+    this.requestLogger.log('PingResolver ping()...');
     return this.pingService.call();
   }
 }
