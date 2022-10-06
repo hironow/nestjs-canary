@@ -3,6 +3,9 @@
 # ------------------------------------------------------
 
 type Query {
+  """ping"""
   ping: String!
+
+  """say hello"""
   sayHello: String!
 }
