@@ -15,4 +15,8 @@ describe('GlobalConfigService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  describe('get', () => {
+    expect(service.get('gcp.projectId')).toBe('test');
+  });
 });
