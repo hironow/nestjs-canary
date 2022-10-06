@@ -11,7 +11,7 @@ import { Request } from 'express';
 import { LoggingWinston } from '@google-cloud/logging-winston';
 import * as lw from '@google-cloud/logging-winston';
 import { CONTEXT, GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
-import { GlobalConfigService } from 'src/global-config/global-config.service';
+import { GlobalConfigService } from '../global-config/global-config.service';
 
 const HEADER_GCP_TRACE = 'X-Cloud-Trace-Context';
 

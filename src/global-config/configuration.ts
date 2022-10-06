@@ -41,14 +41,14 @@ const convertBooleanOrDefault = (
 };
 
 export const generateGlobalConfig = () => {
-  if (!process.env.GCP_PROJECT_ID) {
+  if (false) {
     console.error('environment variables are invalid');
     process.exit();
   }
 
   return {
     gcp: {
-      projectId: process.env.GCP_PROJECT_ID,
+      projectId: convertOrDefault(process.env.GCP_PROJECT_ID, 'test'),
     },
   };
 };

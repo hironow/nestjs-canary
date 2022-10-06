@@ -1,4 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
+import { GlobalConfigModule } from '../global-config/global-config.module';
+
 import { RequestLoggerModule } from './request-logger.module';
 import { RequestLoggerService } from './request-logger.service';
 
@@ -7,7 +10,7 @@ describe('RequestLoggerService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [RequestLoggerModule],
+      imports: [RequestLoggerModule, GlobalConfigModule],
       providers: [RequestLoggerService],
     }).compile();
 
