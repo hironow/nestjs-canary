@@ -79,7 +79,6 @@ export class RequestLoggerService implements LoggerService {
         [traceId, _spanId] = traceCtx?.split('/');
       }
     } catch (error) {
-      console.log(error);
       return '';
     }
     return traceId;
