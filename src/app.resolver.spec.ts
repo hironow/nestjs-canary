@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { WinstonModule } from 'nest-winston';
-import { AppService } from './app.service';
+import { createMock } from '@golevelup/ts-jest';
+
 import { GraphQLModule } from '@nestjs/graphql';
+import { AppService } from './app.service';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { AppResolver } from './app.resolver';
+import { RequestLoggerService } from './request-logger/request-logger.service';
 
 describe('AppResolver', () => {
   let appResolver: AppResolver;
@@ -13,7 +15,6 @@ describe('AppResolver', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [
-        WinstonModule.forRoot({ silent: true }),
         GraphQLModule.forRoot<ApolloDriverConfig>({
           driver: ApolloDriver,
           autoSchemaFile: join(process.cwd(), 'generated/graphql/schema.gql'),
@@ -24,7 +25,14 @@ describe('AppResolver', () => {
         }),
       ],
       controllers: [],
-      providers: [AppService, AppResolver],
+      providers: [
+        AppService,
+        AppResolver,
+        {
+          provide: RequestLoggerService,
+          useValue: createMock<RequestLoggerService>(),
+        },
+      ],
     }).compile();
 
     appResolver = app.get<AppResolver>(AppResolver);

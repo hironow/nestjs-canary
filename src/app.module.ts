@@ -1,22 +1,19 @@
 import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
-import { WinstonModule } from 'nest-winston';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { AppResolver } from './app.resolver';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { LoggingInterceptor } from './interceptor/logging.interceptor';
 import { PingModule } from './ping/ping.module';
-import { PrismaService } from './prisma/prisma.service';
-import { InMemoryService } from './in-memory/in-memory.service';
+import { AppController } from './app.controller';
+import { RequestLoggerModule } from './request-logger/request-logger.module';
+import { GlobalConfigModule } from './global-config/global-config.module';
 
 @Module({
   imports: [
-    WinstonModule.forRoot({
-      level: 'info',
-    }),
+    GlobalConfigModule,
+    RequestLoggerModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'generated/graphql/schema.gql'),
@@ -27,16 +24,7 @@ import { InMemoryService } from './in-memory/in-memory.service';
     }),
     PingModule,
   ],
-  controllers: [],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor,
-    },
-    AppService,
-    AppResolver,
-    PrismaService,
-    InMemoryService,
-  ],
+  controllers: [AppController],
+  providers: [AppService, AppResolver],
 })
 export class AppModule {}

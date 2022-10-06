@@ -35,8 +35,9 @@ lerna-debug.log*
 !.vscode/extensions.json
 *.code-workspace
 
-# dotenv
+# ignore env
 .env
+.env*
 
 # prisma local
 /prisma/local/*

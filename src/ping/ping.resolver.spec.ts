@@ -1,15 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PingResolver } from './ping.resolver';
-import { WinstonModule } from 'nest-winston';
+import { RequestLoggerService } from '../request-logger/request-logger.service';
+import { createMock } from '@golevelup/ts-jest';
+
 import { PingService } from './ping.service';
+import { PingResolver } from './ping.resolver';
 
 describe('PingResolver', () => {
   let resolver: PingResolver;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [WinstonModule.forRoot({ silent: true })],
-      providers: [PingService, PingResolver],
+      providers: [
+        PingService,
+        PingResolver,
+        {
+          provide: RequestLoggerService,
+          useValue: createMock<RequestLoggerService>(),
+        },
+      ],
     }).compile();
 
     resolver = module.get<PingResolver>(PingResolver);
