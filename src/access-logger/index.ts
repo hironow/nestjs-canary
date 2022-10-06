@@ -1,9 +1,9 @@
 import * as lw from '@google-cloud/logging-winston';
 import * as winston from 'winston';
 
-export const createWinstonAccessLogger = () =>
+export const createWinstonAccessLogger = (level: string) =>
   winston.createLogger({
-    level: 'debug',
+    level: level,
     defaultMeta: lw.getDefaultMetadataForTracing(),
     transports: [],
   });

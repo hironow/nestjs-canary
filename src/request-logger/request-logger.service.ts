@@ -43,10 +43,10 @@ export class RequestLoggerService implements LoggerService {
     });
 
     this.winstonLogger = winston.createLogger({
-      level: 'debug',
+      level: this.config.get('app.loggerLevel.request'),
       defaultMeta: {
         ...lw.getDefaultMetadataForTracing(),
-        'logging.googleapis.com/trace': this.trace,
+        'logging.googleapis.com/trace': this.trace, // add trace for connect access logging
       },
       transports: [loggingWinston],
     });
@@ -89,20 +89,24 @@ export class RequestLoggerService implements LoggerService {
     return [
       {
         'logging.googleapis.com/trace': this.trace,
-        // 'logging.googleapis.com/spanId': '',
+        // 'logging.googleapis.com/spanId': '', TODO: add spanId ref. https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry
       },
     ];
   }
 
-  log(message: any, ...optionalParams: any[]) {
-    this.winstonLogger.info(message); //, this.getMetaTrace());
+  log(message: string, ...optionalParams: any[]) {
+    this.winstonLogger.info(message, ...optionalParams);
   }
 
-  error(message: any, ...optionalParams: any[]) {
-    this.winstonLogger.error(message); //, this.getMetaTrace());
+  error(message: string, ...optionalParams: any[]) {
+    this.winstonLogger.error(message, ...optionalParams);
   }
 
-  warn(message: any, ...optionalParams: any[]) {
-    this.winstonLogger.warn(message); //, this.getMetaTrace());
+  warn(message: string, ...optionalParams: any[]) {
+    this.winstonLogger.warn(message, ...optionalParams);
+  }
+
+  debug(message: string, ...optionalParams: any[]) {
+    this.winstonLogger.debug(message, ...optionalParams);
   }
 }

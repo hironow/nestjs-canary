@@ -50,6 +50,15 @@ export const generateGlobalConfig = () => {
     gcp: {
       projectId: convertOrDefault(process.env.GCP_PROJECT_ID, 'test'),
     },
+    app: {
+      loggerLevel: {
+        access: convertOrDefault(process.env.APP_LOGGER_LEVEL_ACCESS, 'debug'),
+        request: convertOrDefault(
+          process.env.APP_LOGGER_LEVEL_REQUEST,
+          'debug',
+        ),
+      },
+    },
   };
 };
 
