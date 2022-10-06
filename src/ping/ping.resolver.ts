@@ -1,18 +1,17 @@
 import { Query, Resolver } from '@nestjs/graphql';
+import { RequestLoggerService } from '../request-logger/request-logger.service';
 import { PingService } from './ping.service';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Logger } from 'winston';
-import { Inject } from '@nestjs/common';
 
 @Resolver()
 export class PingResolver {
   constructor(
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    private readonly requestLogger: RequestLoggerService,
     private readonly pingService: PingService,
   ) {}
 
   @Query(() => String)
   ping(): string {
+    this.requestLogger.log('PingResolver ping()...');
     return this.pingService.call();
   }
 }

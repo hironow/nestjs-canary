@@ -1,22 +1,27 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-
-import {
-  WINSTON_MODULE_NEST_PROVIDER,
-  WINSTON_MODULE_PROVIDER,
-} from 'nest-winston';
 import * as lw from '@google-cloud/logging-winston';
+import { createWinstonAccessLogger } from './access-logger';
+import { GlobalConfigService } from './global-config/global-config.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
-  const logger = app.get(WINSTON_MODULE_PROVIDER);
-  const mw = await lw.express.makeMiddleware(logger, {
+  // use config for server spin-up
+  const config = app.get<GlobalConfigService>(GlobalConfigService);
+
+  // use winston as a access logger on cloud logging
+  const winstonLogger = createWinstonAccessLogger(
+    config.get('app.loggerLevel.access'),
+  );
+  const mw = await lw.express.makeMiddleware(winstonLogger, {
+    projectId: config.get('gcp.projectId'),
     redirectToStdout: true,
+    inspectMetadata: true,
+    useMessageField: true,
   });
   app.use(mw);
 
-  await app.listen(3000);
+  await app.listen(parseInt(process.env.PORT) || 3000);
 }
 bootstrap();
