@@ -9,7 +9,9 @@ export class AppResolver {
     private readonly appService: AppService,
   ) {}
 
-  @Query(() => String)
+  @Query(() => String, {
+    description: 'say hello',
+  })
   sayHello(): string {
     this.requestLogger.log('AppResolver / this is INFO log');
     this.requestLogger.warn('AppResolver / this is WARN log');
