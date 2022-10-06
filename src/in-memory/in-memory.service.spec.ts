@@ -1,14 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InMemoryService } from './in-memory.service';
-import { WinstonModule } from 'nest-winston';
+import { RequestLoggerService } from '../request-logger/request-logger.service';
+import { createMock } from '@golevelup/ts-jest';
 
 describe('InMemoryService', () => {
   let service: InMemoryService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [WinstonModule.forRoot({ silent: true })],
-      providers: [InMemoryService],
+      providers: [
+        InMemoryService,
+        {
+          provide: RequestLoggerService,
+          useValue: createMock<RequestLoggerService>(),
+        },
+      ],
     }).compile();
 
     service = module.get<InMemoryService>(InMemoryService);

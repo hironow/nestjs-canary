@@ -1,18 +1,14 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { PersistentInterface } from 'src/interface/persistent';
+import { Injectable } from '@nestjs/common';
+import { PersistentInterface } from '../interface/persistent';
 import {
   PersistentGatewayContextInterface,
   PersistentGatewayInterface,
-} from 'src/interface/persistent-gateway';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Logger } from 'winston';
+} from '../interface/persistent-gateway';
+import { RequestLoggerService } from '../request-logger/request-logger.service';
 
 @Injectable()
 export class InMemoryService implements PersistentGatewayInterface {
-  constructor(
-    @Inject(WINSTON_MODULE_PROVIDER)
-    private readonly logger: Logger,
-  ) {}
+  constructor(private readonly requestLogger: RequestLoggerService) {}
 
   getPersistent<T, U>(): PersistentInterface<T, U> {
     // key: P, value: T[] のObjを返す
@@ -22,15 +18,17 @@ export class InMemoryService implements PersistentGatewayInterface {
   RunInTransaction(fn: (ctx: PersistentGatewayContextInterface) => void): void {
     () => {
       const ctx = new InMemoryContext();
-      this.logger.info('start transaction...');
+      this.requestLogger.log('start transaction...');
       try {
         fn(ctx);
       } catch (error) {
-        this.logger.error(error);
-        this.logger.info('rollback transaction...');
+        if (error instanceof Error) {
+          this.requestLogger.error(error.message, error.name, error.stack);
+        }
+        this.requestLogger.log('rollback transaction...');
         throw error;
       }
-      this.logger.info('end transaction...');
+      this.requestLogger.log('end transaction...');
     };
   }
 }

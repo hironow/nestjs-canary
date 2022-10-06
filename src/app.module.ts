@@ -9,6 +9,8 @@ import { PingModule } from './ping/ping.module';
 import { AppController } from './app.controller';
 import { RequestLoggerModule } from './request-logger/request-logger.module';
 import { GlobalConfigModule } from './global-config/global-config.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { InMemoryModule } from './in-memory/in-memory.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { GlobalConfigModule } from './global-config/global-config.module';
       plugins: [ApolloServerPluginLandingPageLocalDefault()], // use apollo sandbox
     }),
     PingModule,
+    PrismaModule,
+    InMemoryModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],

@@ -1,46 +1,37 @@
-import {
-  INestApplication,
-  Inject,
-  Injectable,
-  OnModuleInit,
-} from '@nestjs/common';
+import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
-import { PersistentInterface } from 'src/interface/persistent';
+import { PersistentInterface } from '../interface/persistent';
 import {
   PersistentGatewayContextInterface,
   PersistentGatewayInterface,
 } from 'src/interface/persistent-gateway';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Logger } from 'winston';
+import { RequestLoggerService } from '../request-logger/request-logger.service';
 
 @Injectable()
 export class PrismaService
   extends PrismaClient<Prisma.PrismaClientOptions, Prisma.LogLevel>
   implements OnModuleInit, PersistentGatewayInterface
 {
-  constructor(
-    @Inject(WINSTON_MODULE_PROVIDER)
-    private readonly logger: Logger,
-  ) {
+  constructor(private readonly requestLogger: RequestLoggerService) {
     super({ log: ['query', 'info', 'warn', 'error'] });
   }
 
   async onModuleInit() {
     this.$on('query', (event) => {
-      this.logger.log(
+      this.requestLogger.log(
         `Query: ${event.query}`,
         `Params: ${event.params}`,
         `Duration: ${event.duration} ms`,
       );
     });
     this.$on('info', (event) => {
-      this.logger.info(event.message);
+      this.requestLogger.log(event.message);
     });
     this.$on('warn', (event) => {
-      this.logger.warn(event.message);
+      this.requestLogger.warn(event.message);
     });
     this.$on('error', (event) => {
-      this.logger.error(event.message);
+      this.requestLogger.error(event.message);
     });
     await this.$connect();
   }
@@ -61,15 +52,17 @@ export class PrismaService
   }
   RunInTransaction(fn: (ctx: PersistentGatewayContextInterface) => void): void {
     const ctx = new PrismaContext();
-    this.logger.info('start transaction...');
+    this.requestLogger.log('start transaction...');
     try {
       fn(ctx);
     } catch (error) {
-      this.logger.error(error);
-      this.logger.info('rollback transaction...');
+      if (error instanceof Error) {
+        this.requestLogger.error(error.message, error.name, error.stack);
+      }
+      this.requestLogger.log('rollback transaction...');
       throw error;
     }
-    this.logger.info('end transaction...');
+    this.requestLogger.log('end transaction...');
   }
 }
 
