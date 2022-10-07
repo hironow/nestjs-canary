@@ -18,4 +18,12 @@ export class AppResolver {
     this.requestLogger.error('AppResolver / this is ERROR log');
     return this.appService.getHello();
   }
+
+  @Query(() => String, {
+    description: 'say Goodnight (error)',
+  })
+  sayGoodnight(): string {
+    this.requestLogger.log('call goodnight... bad throw error!');
+    throw Error('i do not sleep');
+  }
 }

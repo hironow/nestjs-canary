@@ -15,4 +15,10 @@ export class AppController {
     this.requestLogger.error('AppController / this is ERROR log');
     return this.appService.getHello();
   }
+
+  @Get('error')
+  sayGoodnight(): string {
+    this.requestLogger.log('call goodnight... bad throw error!');
+    throw Error('i do not sleep');
+  }
 }
