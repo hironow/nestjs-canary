@@ -5,41 +5,57 @@ import {
   PersistentGatewayContextInterface,
   PersistentGatewayInterface,
 } from 'src/interface/persistent-gateway';
-import { RequestLoggerService } from '../request-logger/request-logger.service';
+import { Logger } from 'winston';
+import { createWinstonAccessLogger } from '../access-logger/';
 
 @Injectable()
 export class PrismaService
   extends PrismaClient<Prisma.PrismaClientOptions, Prisma.LogLevel>
   implements OnModuleInit, PersistentGatewayInterface
 {
-  constructor(private readonly requestLogger: RequestLoggerService) {
+  accessLogger: Logger = null;
+
+  constructor() {
     super({ log: ['query', 'info', 'warn', 'error'] });
   }
 
   async onModuleInit() {
     this.$on('query', (event) => {
-      this.requestLogger.log(
+      this.accessLogger.debug(
         `Query: ${event.query}`,
         `Params: ${event.params}`,
         `Duration: ${event.duration} ms`,
       );
     });
     this.$on('info', (event) => {
-      this.requestLogger.log(event.message);
+      this.accessLogger.info(event.message);
     });
     this.$on('warn', (event) => {
-      this.requestLogger.warn(event.message);
+      this.accessLogger.warn(event.message);
     });
     this.$on('error', (event) => {
-      this.requestLogger.error(event.message);
+      this.accessLogger.error(event.message);
     });
     await this.$connect();
   }
 
   async enableShutdownHooks(app: INestApplication) {
-    this.$on('beforeExit', async () => {
+    this.$on('beforeExit', async (event) => {
+      this.accessLogger.debug(event.name);
       await app.close();
     });
+  }
+
+  getLogger(): Logger {
+    if (this.accessLogger === null) {
+      const newLogger = createWinstonAccessLogger('info');
+      this.setLogger(newLogger);
+    }
+    return this.accessLogger;
+  }
+
+  setLogger(logger: Logger) {
+    this.accessLogger = logger;
   }
 
   getPersistent<T, U>(): PersistentInterface<T, U> {
@@ -52,17 +68,17 @@ export class PrismaService
   }
   RunInTransaction(fn: (ctx: PersistentGatewayContextInterface) => void): void {
     const ctx = new PrismaContext();
-    this.requestLogger.log('start transaction...');
+    this.accessLogger.debug('start transaction...');
     try {
       fn(ctx);
     } catch (error) {
       if (error instanceof Error) {
-        this.requestLogger.error(error.message, error.name, error.stack);
+        this.accessLogger.error(error.message, error.name, error.stack);
       }
-      this.requestLogger.log('rollback transaction...');
+      this.accessLogger.debug('rollback transaction...');
       throw error;
     }
-    this.requestLogger.log('end transaction...');
+    this.accessLogger.debug('end transaction...');
   }
 }
 

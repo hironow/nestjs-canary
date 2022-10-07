@@ -23,9 +23,10 @@ async function bootstrap() {
   });
   app.use(mw);
 
-  // use prisma shutdown
+  // use prisma shutdown hook and set logger
   const prisma = app.get<PrismaService>(PrismaService);
   await prisma.enableShutdownHooks(app);
+  prisma.setLogger(winstonLogger);
 
   await app.listen(parseInt(process.env.PORT) || 3000);
 }
