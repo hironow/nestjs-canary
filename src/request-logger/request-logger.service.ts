@@ -43,6 +43,7 @@ export class RequestLoggerService implements LoggerService {
     });
 
     this.winstonLogger = winston.createLogger({
+      silent: this.config.get('app.env') === 'test',
       level: this.config.get('app.loggerLevel.request'),
       defaultMeta: {
         ...lw.getDefaultMetadataForTracing(),
