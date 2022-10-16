@@ -8,9 +8,10 @@ import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { AppResolver } from './app.resolver';
 import { RequestLoggerService } from './request-logger/request-logger.service';
+import { errorSayGoodnight } from './error';
 
 describe('AppResolver', () => {
-  let appResolver: AppResolver;
+  let resolver: AppResolver;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -35,12 +36,22 @@ describe('AppResolver', () => {
       ],
     }).compile();
 
-    appResolver = app.get<AppResolver>(AppResolver);
+    resolver = app.get<AppResolver>(AppResolver);
+  });
+
+  it('should be defined', () => {
+    expect(resolver).toBeDefined();
   });
 
   describe('Query sayHello', () => {
     it('should return "Hello World!"', () => {
-      expect(appResolver.sayHello()).toBe('Hello World!');
+      expect(resolver.sayHello()).toBe('Hello World!');
+    });
+  });
+
+  describe('Query sayGoodnight', () => {
+    it('should return throw error', () => {
+      expect(() => resolver.sayGoodnight()).toThrowError(errorSayGoodnight());
     });
   });
 });

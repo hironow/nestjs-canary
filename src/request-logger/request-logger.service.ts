@@ -53,7 +53,7 @@ export class RequestLoggerService implements LoggerService {
     });
   }
 
-  static getTraceFromRequest(req: Request): string {
+  private static getTraceFromRequest(req: Request): string {
     let traceId;
     let _spanId;
     try {
@@ -67,7 +67,7 @@ export class RequestLoggerService implements LoggerService {
   }
 
   // getTraceFromContext current not working...
-  static getTraceFromContext(ctx: ExecutionContext): string {
+  private static getTraceFromContext(ctx: ExecutionContext): string {
     let traceId;
     let _spanId;
     try {

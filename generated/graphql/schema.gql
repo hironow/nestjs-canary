@@ -6,6 +6,9 @@ type Query {
   """ping"""
   ping: String!
 
+  """say Goodnight (error)"""
+  sayGoodnight: String!
+
   """say hello"""
   sayHello: String!
 }
