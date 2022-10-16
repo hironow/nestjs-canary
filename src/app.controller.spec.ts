@@ -4,6 +4,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RequestLoggerService } from './request-logger/request-logger.service';
+import { errorSayGoodnight } from './error';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -23,9 +24,17 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
+  describe('/ (root)', () => {
     it('should return "Hello World!"', () => {
       expect(appController.getHello()).toBe('Hello World!');
+    });
+  });
+
+  describe('/error', () => {
+    it('should return throw error', () => {
+      expect(() => appController.sayGoodnight()).toThrowError(
+        errorSayGoodnight(),
+      );
     });
   });
 });

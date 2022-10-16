@@ -1,6 +1,7 @@
 import { AppService } from './app.service';
 import { Resolver, Query } from '@nestjs/graphql';
 import { RequestLoggerService } from './request-logger/request-logger.service';
+import { errorSayGoodnight } from './error';
 
 @Resolver()
 export class AppResolver {
@@ -24,6 +25,6 @@ export class AppResolver {
   })
   sayGoodnight(): string {
     this.requestLogger.log('call goodnight... bad throw error!');
-    throw Error('i do not sleep');
+    throw Error(errorSayGoodnight());
   }
 }

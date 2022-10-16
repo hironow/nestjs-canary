@@ -8,6 +8,7 @@ import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { AppResolver } from './app.resolver';
 import { RequestLoggerService } from './request-logger/request-logger.service';
+import { errorSayGoodnight } from './error';
 
 describe('AppResolver', () => {
   let appResolver: AppResolver;
@@ -41,6 +42,14 @@ describe('AppResolver', () => {
   describe('Query sayHello', () => {
     it('should return "Hello World!"', () => {
       expect(appResolver.sayHello()).toBe('Hello World!');
+    });
+  });
+
+  describe('Query sayGoodnight', () => {
+    it('should return throw error', () => {
+      expect(() => appResolver.sayGoodnight()).toThrowError(
+        errorSayGoodnight(),
+      );
     });
   });
 });

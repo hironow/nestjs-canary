@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+import { errorSayGoodnight } from './error';
 import { RequestLoggerService } from './request-logger/request-logger.service';
 
 @Controller()
@@ -19,6 +20,6 @@ export class AppController {
   @Get('error')
   sayGoodnight(): string {
     this.requestLogger.log('call goodnight... bad throw error!');
-    throw Error('i do not sleep');
+    throw Error(errorSayGoodnight());
   }
 }
