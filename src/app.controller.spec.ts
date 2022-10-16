@@ -4,9 +4,10 @@ import { createMock } from '@golevelup/ts-jest';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RequestLoggerService } from './request-logger/request-logger.service';
+import { errorSayGoodnight } from './error';
 
 describe('AppController', () => {
-  let appController: AppController;
+  let controller: AppController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -20,12 +21,22 @@ describe('AppController', () => {
       ],
     }).compile();
 
-    appController = app.get<AppController>(AppController);
+    controller = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+
+  describe('/ (root)', () => {
     it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+      expect(controller.getHello()).toBe('Hello World!');
+    });
+  });
+
+  describe('/error', () => {
+    it('should return throw error', () => {
+      expect(() => controller.sayGoodnight()).toThrowError(errorSayGoodnight());
     });
   });
 });

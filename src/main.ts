@@ -14,6 +14,7 @@ async function bootstrap() {
   // use winston as a access logger on cloud logging
   const winstonLogger = createWinstonAccessLogger(
     config.get('app.loggerLevel.access'),
+    config.get('app.env') === 'test',
   );
   const mw = await lw.express.makeMiddleware(winstonLogger, {
     projectId: config.get('gcp.projectId'),

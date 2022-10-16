@@ -43,6 +43,7 @@ export class RequestLoggerService implements LoggerService {
     });
 
     this.winstonLogger = winston.createLogger({
+      silent: this.config.get('app.env') === 'test',
       level: this.config.get('app.loggerLevel.request'),
       defaultMeta: {
         ...lw.getDefaultMetadataForTracing(),
@@ -52,7 +53,7 @@ export class RequestLoggerService implements LoggerService {
     });
   }
 
-  static getTraceFromRequest(req: Request): string {
+  private static getTraceFromRequest(req: Request): string {
     let traceId;
     let _spanId;
     try {
@@ -66,7 +67,7 @@ export class RequestLoggerService implements LoggerService {
   }
 
   // getTraceFromContext current not working...
-  static getTraceFromContext(ctx: ExecutionContext): string {
+  private static getTraceFromContext(ctx: ExecutionContext): string {
     let traceId;
     let _spanId;
     try {
