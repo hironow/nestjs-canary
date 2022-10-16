@@ -38,3 +38,6 @@ lerna-debug.log*
 # ignore env
 .env
 .env*
+
+# prisma local
+/prisma/local/*

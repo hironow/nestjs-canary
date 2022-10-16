@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import * as lw from '@google-cloud/logging-winston';
 import { createWinstonAccessLogger } from './access-logger';
 import { GlobalConfigService } from './global-config/global-config.service';
+import { PrismaService } from './prisma/prisma.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +23,11 @@ async function bootstrap() {
     useMessageField: true,
   });
   app.use(mw);
+
+  // use prisma shutdown hook and set logger
+  const prisma = app.get<PrismaService>(PrismaService);
+  await prisma.enableShutdownHooks(app);
+  prisma.setLogger(winstonLogger);
 
   await app.listen(parseInt(process.env.PORT) || 3000);
 }
