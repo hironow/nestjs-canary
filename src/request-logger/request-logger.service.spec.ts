@@ -26,4 +26,22 @@ describe('RequestLoggerService', () => {
       expect(service.log('test')).toBeUndefined();
     });
   });
+
+  describe('error', () => {
+    it('should call with undefined', () => {
+      expect(service.error('test')).toBeUndefined();
+    });
+  });
+
+  describe('warn', () => {
+    it('should call with undefined', () => {
+      expect(service.warn('test')).toBeUndefined();
+    });
+  });
+
+  describe('debug', () => {
+    it('should call with undefined', () => {
+      expect(service.debug('test')).toBeUndefined();
+    });
+  });
 });
