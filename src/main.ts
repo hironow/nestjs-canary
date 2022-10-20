@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import * as lw from '@google-cloud/logging-winston';
 import { createWinstonAccessLogger } from './access-logger';
 import { GlobalConfigService } from './global-config/global-config.service';
+import { LoggingInterceptor } from './interceptor/logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +23,9 @@ async function bootstrap() {
     useMessageField: true,
   });
   app.use(mw);
+
+  // use graphql logger on interceptor
+  app.useGlobalInterceptors(new LoggingInterceptor(winstonLogger));
 
   await app.listen(parseInt(process.env.PORT) || 3000);
 }
