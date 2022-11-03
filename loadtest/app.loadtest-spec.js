@@ -60,7 +60,10 @@ export function handleSummary(data) {
   console.log('Finished executing performance tests');
 
   return {
-    stdout: textSummary(data, { indent: ' ', enableColors: true }), // Show the text summary to stdout...
-    './summary.json': JSON.stringify(data), // and a JSON with all the details...
+    stdout: textSummary(data, { indent: ' ', enableColors: true }),
+    'loadtest/loadtest-summary.txt': textSummary(data, {
+      indent: ' ',
+      enableColors: false,
+    }),
   };
 }

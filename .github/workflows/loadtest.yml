@@ -36,10 +36,8 @@ jobs:
       - name: Start server and Run loadtest
         run: |
           npm run start:prod &
-          ./k6 run loadtest/*.js
+          ./k6 run loadtest/*.js &&
+          echo '## Summary :rocket:' >> $GITHUB_STEP_SUMMARY
+          # remove first and last line by sed
+          cat loadtest/loadtest-summary.txt >> $GITHUB_STEP_SUMMARY
 
-      - name: Store loadtest results
-        uses: actions/upload-artifact@v3
-        with:
-          name: k6-summary
-          path: ./summary.json
