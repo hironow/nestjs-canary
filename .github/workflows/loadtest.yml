@@ -36,8 +36,7 @@ jobs:
       - name: Start server and Run loadtest
         run: |
           npm run start:prod &
-          ./k6 run loadtest/*.js &&
-          echo '## Result :rocket:' >> $GITHUB_STEP_SUMMARY
-          # remove first and last line by sed
-          cat ./loadtest/loadtest-report.txt >> $GITHUB_STEP_SUMMARY
+          ./k6 run loadtest/*.js
+          echo '## Loadtest :rocket:' >> $GITHUB_STEP_SUMMARY
+          cat loadtest/loadtest-report.txt >> $GITHUB_STEP_SUMMARY
 
