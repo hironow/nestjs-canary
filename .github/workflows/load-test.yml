@@ -24,19 +24,16 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
 
-      - name: Build
+      - name: Install k6
+        run: |
+          curl https://github.com/loadimpact/k6/releases/download/v0.26.2/k6-v0.26.2-linux64.tar.gz -L | tar xvz --strip-components 1
+
+      - name: Build server
         run: |
           npm install
           npm run build
 
-      - name: Start server
+      - name: Start server and Run k6 load-test
         run: |
-          npm run start:prod &
-          sleep 10 &&
-          curl http://localhost:3000 -I
-
-      - name: Run k6 local test
-        uses: grafana/k6-action@v0.2.0
-        with:
-          filename: ./loadtest/app.loadtest-spec.js
-          cloud: false
+          npm run start:prod & npx wait-on http://localhost:3000
+          ./k6 run ./loadtest/app.loadtest-spec.js
