@@ -28,9 +28,7 @@ describe('LoggingInterceptor', () => {
         .intercept(executionContext, callHandler)
         .subscribe((asyncData) => {
           // asset
-          expect(asyncData).toEqual({
-            data: { ...someData },
-          });
+          expect(asyncData).toStrictEqual(someData);
         });
     });
   });
