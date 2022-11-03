@@ -30,8 +30,10 @@ jobs:
           npm run build
 
       - name: Start server
-        run: |
-          npm run start:prod & npx wait-on http://localhost:3000
+        uses: cypress-io/github-action@v4
+        with:
+          start: npm run start:prod
+          wait-on: 'http://localhost:3000'
 
       - name: Run k6 local test
         uses: grafana/k6-action@v0.2.0
