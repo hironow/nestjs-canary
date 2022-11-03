@@ -8,6 +8,7 @@
     "orta.vscode-jest",
     "zengxingxin.sort-js-object-keys",
     "alexcvzz.vscode-sqlite",
-    "redhat.vscode-yaml"
+    "redhat.vscode-yaml",
+    "george-alisson.html-preview-vscode"
   ]
 }
