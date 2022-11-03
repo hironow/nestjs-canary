@@ -36,7 +36,7 @@ jobs:
       - name: Start server and Run loadtest
         run: |
           npm run start:prod &
-          ./k6 run loadtest/*.js
+          ./k6 run loadtest/*.js --out json=summary.json
 
       - name: Store loadtest results
         uses: actions/upload-artifact@v3
