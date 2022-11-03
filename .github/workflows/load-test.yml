@@ -33,7 +33,9 @@ jobs:
         run: |
           npm run start:prod &
           sleep 10 &&
-          curl http://localhost:3000
+          curl http://localhost:8080
+        env:
+          PORT: 8080
 
       - name: Run k6 local test
         uses: grafana/k6-action@v0.2.0
