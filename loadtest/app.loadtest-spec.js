@@ -6,7 +6,7 @@ const base = 'http://localhost:3000';
 
 export function handleSummary(data) {
   return {
-    './loadtest/summary.html': htmlReport(data),
+    'summary.html': htmlReport(data),
   };
 }
 

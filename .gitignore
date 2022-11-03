@@ -38,3 +38,6 @@ lerna-debug.log*
 # ignore env
 .env
 .env*
+
+# loadtest summary
+summary.html
