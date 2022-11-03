@@ -21,6 +21,7 @@ import { GlobalConfigModule } from './global-config/global-config.module';
       debug: true,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()], // use apollo sandbox
+      context: ({ req, res }) => ({ req, res }), // use interceptor for graphql see: https://github.com/nestjs/graphql/issues/245#issuecomment-492595369
     }),
     PingModule,
   ],
