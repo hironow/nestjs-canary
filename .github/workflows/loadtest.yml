@@ -36,10 +36,10 @@ jobs:
       - name: Start server and Run loadtest
         run: |
           npm run start:prod & npx wait-on http://localhost:3000
-          npm run loadtest
+          ./k6 run ./loadtest/*.js
 
       - name: Upload loadtest summary
         uses: actions/upload-artifact@v3
         with:
           name: k6-summary
-          path: summary.html
+          path: ./summary.html
