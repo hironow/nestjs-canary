@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import { sleep } from 'k6';
 
-const base = 'http://localhost:8080';
+const base = 'http://localhost:3000';
 
 export default function () {
   let query = `
