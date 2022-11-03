@@ -24,6 +24,10 @@ jobs:
           node-version: '18.x'
           cache: 'npm'
 
+      - name: Build
+        run: |
+          npm run build
+
       - name: Start server
         run: |
           npm run start:prod
