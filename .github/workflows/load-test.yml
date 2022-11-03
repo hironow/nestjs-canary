@@ -29,11 +29,11 @@ jobs:
           npm install
           npm run build
 
-      - name: Start server
-        uses: cypress-io/github-action@v4
-        with:
-          start: npm run start:prod
-          wait-on: 'http://localhost:3000'
+      - name: Start server and wait
+        run: |
+          npm run start:prod &
+          sleep 10 &&
+          curl http://localhost:3000
 
       - name: Run k6 local test
         uses: grafana/k6-action@v0.2.0
