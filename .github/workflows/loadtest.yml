@@ -37,7 +37,7 @@ jobs:
         run: |
           npm run start:prod &
           ./k6 run loadtest/*.js &&
-          echo '## Summary :rocket:' >> $GITHUB_STEP_SUMMARY
+          echo '## Result :rocket:' >> $GITHUB_STEP_SUMMARY
           # remove first and last line by sed
-          cat loadtest/loadtest-summary.txt >> $GITHUB_STEP_SUMMARY
+          cat ./loadtest/loadtest-report.txt >> $GITHUB_STEP_SUMMARY
 

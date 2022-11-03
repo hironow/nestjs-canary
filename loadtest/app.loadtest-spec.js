@@ -61,8 +61,7 @@ export function handleSummary(data) {
 
   return {
     stdout: textSummary(data, { indent: ' ', enableColors: true }),
-    'loadtest/loadtest-summary.txt': textSummary(data, {
-      indent: ' ',
+    'loadtest/loadtest-report.txt': textSummary(data, {
       enableColors: false,
     }),
   };
