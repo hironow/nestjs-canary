@@ -21,16 +21,23 @@ export class LoggingInterceptor implements NestInterceptor {
     if (ctx.getType<GqlContextType>() === 'graphql') {
       // only in the context of Graphql request
       const gql = GqlExecutionContext.create(ctx);
-      const req = gql.getContext().req as Request;
-      const args = gql.getArgs();
+      const _req = gql.getContext().req as Request;
+      const _args = gql.getArgs();
       const info = gql.getInfo<GraphQLResolveInfo>();
 
-      this.winstonLogger.info('body', req.body);
-      this.winstonLogger.info('args', args);
-      this.winstonLogger.info(`info.fieldName: ${info.fieldName}`);
-      for (const fieldNode of info.fieldNodes) {
-        this.winstonLogger.info(`fieldNode.name: ${fieldNode.name.value}`);
-      }
+      // minimal message
+      const parentType = info.parentType.name;
+      const fieldName = info.fieldName;
+      const message = `GraphQL - ${parentType} - ${fieldName}`;
+      this.winstonLogger.info(message);
+
+      // TODO: body, but filter secure request ref. https://stackoverflow.com/questions/56932295/how-to-access-final-graphql-reponse-in-nest-js-with-interceptor
+      // this.winstonLogger.info('body', req.body);
+      // this.winstonLogger.info('args', args);
+      // this.winstonLogger.info(`info.fieldName: ${info.fieldName}`);
+      // for (const fieldNode of info.fieldNodes) {
+      //   this.winstonLogger.info(`fieldNode.name: ${fieldNode.name.value}`);
+      // }
     }
 
     const now = Date.now();
