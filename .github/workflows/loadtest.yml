@@ -37,6 +37,8 @@ jobs:
         run: |
           npm run start:prod &
           ./k6 run loadtest/*.js
+          pwd
+          ls
           echo '## Loadtest :rocket:' >> $GITHUB_STEP_SUMMARY
           cat loadtest/loadtest-report.txt >> $GITHUB_STEP_SUMMARY
 
