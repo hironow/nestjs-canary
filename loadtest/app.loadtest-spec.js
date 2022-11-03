@@ -1,6 +1,5 @@
 import http from 'k6/http';
 import { sleep } from 'k6';
-import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
 
 const base = 'http://localhost:3000';
 
@@ -55,14 +54,3 @@ const ping = () => {
     console.log(JSON.stringify(res.body));
   }
 };
-
-export function handleSummary(data) {
-  console.log('Finished executing performance tests');
-
-  return {
-    stdout: textSummary(data, { indent: ' ', enableColors: true }),
-    'loadtest/loadtest-report.txt': textSummary(data, {
-      enableColors: false,
-    }),
-  };
-}
