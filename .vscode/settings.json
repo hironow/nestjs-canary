@@ -1,8 +1,13 @@
 {
+  "files.exclude": {
+    "**/coverage": true,
+    "**/dist": true,
+    "**/node_modules": true
+  },
   "editor.formatOnSave": true,
   "jest.autoRun": { "watch": true },
   "jest.jestCommandLine": "npm run test --",
-  "cSpell.words": ["Etag"],
+  "cSpell.words": ["Etag", "tbls"],
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   }
