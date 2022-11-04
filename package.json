@@ -27,7 +27,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "test:scenario": "bash ./script/scenario.sh",
     "test:all": "run-p test test:e2e",
-    "loadtest": "bash ./script/loadtest.sh"
+    "loadtest": "bash ./script/loadtest.sh",
+    "tbls": "env-cmd bash ./script/tbls.sh"
   },
   "dependencies": {
     "@golevelup/ts-jest": "^0.3.3",
